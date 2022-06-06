@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container-lg">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="4000">
+                <a href="/games/{{spin_games[0].id}}"><img src="{{ url_for('static', path=spin_games[0].img_wide) }}"
+                                                        class="d-block w-100 wideimg" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="display-2 sekiro">{{ spin_games[0].game_title }}</h5>
+                    <p>{{ spin_games[0].game_description }}</p>
+                    <a href="/cart_add/{{spin_games[0].id}}" class="btn btn-danger btn-lg">В корзину</a>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="4000">
+                <a href="/games/{{spin_games[1].id}}"><img src="{{ url_for('static', path=spin_games[1].img_wide) }}" class="d-block w-100 wideimg" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="display-2 btl-2">{{ spin_games[1].game_title }}</h5>
+                    <p>{{ spin_games[1].game_description }}</p>
+                    <a href="/cart_add/{{spin_games[1].id}}" class="btn btn-danger btn-lg">В корзину</a>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="4000">
+                <a href="/games/{{spin_games[2].id}}"><img src="{{ url_for('static', path=spin_games[2].img_wide) }}"
+                                                        class="d-block w-100 wideimg" alt="..."></a>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5 class="display-2 witcher">{{ spin_games[2].game_title }}</h5>
+                    <p>{{ spin_games[2].game_description }}</p>
+                    <a href="/cart_add/{{spin_games[2].id}}" class="btn btn-danger btn-lg">В корзину</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+            crossorigin="anonymous"></script>
+</section>
+<section>
+    <div class="container-lg">
+        <div class="swiper-menu">
+            <div class="swiper-wrapper">
+                <a href="/list" class="menu_elem mx-5"><span>Новинки</span></a>
+                <a href="/list" class="menu_elem mx-5"><span>Лидеры продаж</span></a>
+                <a href="/list" class="menu_elem mx-5"><span>Популярное</span></a>
+                <a href="/list" class="menu_elem mx-5"><span>Предзаказы</span></a>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="home-games">
+    <div class="container-lg">
+        <div class="games-wrapper">
+            {% for j in home_games %}
+            <div class="game-item">
+                <a class="game-item-img" href="/games/{{j.id}}">
+                    <img class="postimg" src="{{ url_for('static', path=j.img) }}">
+                </a>
+                <a href="/{{j.id}}" class="game-item-name">{{ j.name }}</a>
+                <div class="price"><b>{{ j.price }}₽</b></div>
+                <a href="/cart_add/{{j.id}}" class="btn btn-primary">В корзину</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div align="center">
+            <a href="/list" class="btn btn-primary btn-all">Смотреть все</a>
+        </div>
+
+    </div>
+</section>
+<!--
+	 </section>
+	 <section class="blog-section">
+	 	<div class="blog">
+	 		<h3 class="blog-title" align="center">Свежее в блоге</h3>
+	 	</div>
+
+	 	<div align="center">
+	 		<div class="btn btn-primary btn-all">Все публикации</div>
+	 	</div>
+	 </section>
+!-->
+{% endblock %}

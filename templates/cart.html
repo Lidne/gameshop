@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if cart_list %}
+<center>
+    <a href="/buy" class="btn btn-primary btn-all">Купить</a>
+</center>
+<section class="home-games">
+    <div class="container-lg">
+        <div class="games-wrapper">
+            {% for j in cart_list %}
+            <div class="game-item">
+                <a class="game-item-img" href="/games/{{j.id}}">
+                    <img class="postimg" src="static/{{ j.img }}">
+                </a>
+                <a href="/games/{{j.id}}" class="game-item-name">{{ j.game_title }}</a>
+                <div class="price"><b>{{ j.price }}₽</b></div>
+                <a href="/cart_delete/{{ j.id }}" class="btn btn-primary">Убрать</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<center>
+    <a href="/cart_delete/0" class="btn btn-primary btn-all">Отчистить корзину</a>
+</center>
+{% else %}
+<center>
+    <div style="margin: 17.5%;">
+        <a href="/" class="btn btn-primary">Тут ничего нет</a>
+    </div>
+</center>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+<link rel="stylesheet" href="static/css/paymant.css">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-11">
+            <div class="card card0 rounded-0">
+                <div class="row">
+                    <div class="col-md-5 d-md-block d-none p-0 box">
+                        <div class="card rounded-0 border-0 card1" id="bill">
+                            <h3 id="heading1">Платеж за все товары</h3>
+                            {% for game in cart_list %}
+                            <div class="row">
+                                <div class="col-lg-7 col-8 mt-4 line pl-4">
+                                    <h2 class="bill-head">{{game.game_title}}</h2> <small class="bill-date">{{game.price}} р.</small>
+                                </div>
+                                <div class="col-lg-5 col-4 mt-4">
+                                    <h2 class="bill-head px-xl-5 px-lg-4">RUB</h2>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col-md-12 red-bg">
+                                    <p class="bill-date" id="total-label">Итоговая стоимость</p>
+                                    <h2 class="bill-head" id="total">{{total}} р.</h2> <small class="bill-date" id="total-label">Price includes all taxes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-12 p-0 box">
+                        <div class="card rounded-0 border-0 card2" id="paypage">
+                            <div class="form-card">
+                                <h2 id="heading2" class="text-danger">Метод оплаты</h2>
+                                <div class="radio-group">
+                                </div> <label class="pay">Ф.И.О</label> <input type="text" name="holdername" placeholder="John Smith">
+                                <div class="row">
+                                    <div class="col-8 col-md-6"> <label class="pay">Номер карты</label> <input type="text" name="cardno" id="cr_no" placeholder="0000-0000-0000-0000" minlength="19" maxlength="19"> </div>
+                                    <div class="col-4 col-md-6"> <label class="pay">CVV</label> <input type="password" name="cvcpwd" placeholder="&#9679;&#9679;&#9679;" class="placeicon" minlength="3" maxlength="3"> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12"> <label class="pay">Дата окончания срока действия</label> </div>
+                                    <div class="col-md-12"> <input type="text" name="exp" id="exp" placeholder="MM/YY" minlength="5" maxlength="5"> </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="/goods"><input type="submit" value="ПОТРАТЬ ШЕЙКЕЛИ, ХОМЯЧЕК &nbsp; &#xf178;" class="btn btn-primary placeicon"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

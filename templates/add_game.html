@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='css/gameadd.css') }}">
+<div class="container">
+    <section class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Добавление игры</h3>
+        </div>
+        <div class="panel-body">
+
+            <form action="/add_game" class="form-horizontal main" method="post"  enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {% if error %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endif %}
+                <div class="form-group">
+                    {{ form.name.label }}
+                    <div class="col-sm-9">
+                        {{ form.name(class="form-control", type="text", placeholder="Название") }}
+                        {% for error in form.name.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div> <!-- form-group // -->
+                <div class="form-group">
+                    {{ form.price.label }}
+                    <div class="col-sm-9">
+                        {{ form.price(class="form-control", type="int", placeholder="Цена") }}
+                        {% for error in form.price.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div> <!-- form-group // -->
+                <div class="form-group">
+                    {{ form.genre.label }}
+                    {{form.genre}}
+                </div>
+                <div class="form-group">
+                    {{ form.developers.label }}
+                    <div class="col-sm-9">
+                        {{ form.developers(class="form-control", type="text", placeholder="Разработчики") }}
+                        {% for error in form.developers.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.description.label }}
+                        <div class="col-sm-9">
+                            {{ form.description(class="form-control", type="text", placeholder="Описание") }}
+                            {% for error in form.description.errors %}
+                            <p class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </p>
+                            {% endfor %}
+                        </div> <!-- form-group // -->
+                        <div class="form-group">
+                            {{ form.ratio.label }}
+                            <div class="col-sm-3">
+                                {{ form.ratio(class="form-control", type="text", placeholder="Оценка") }}
+                                {% for error in form.ratio.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                                {% endfor %}
+                            </div>
+                            <!-- form-group // -->
+                            <div class="form-group">
+                                {{ form.release_date.label }}
+                                <div class="col-sm-9">
+                                    {{ form.release_date(class="form-control", placeholder="Дата") }}
+                                    {% for error in form.release_date.errors %}
+                                    <p class="alert alert-danger" role="alert">
+                                        {{ error }}
+                                    </p>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        {{ form.img.label }}
+                                        {{ form.img(class="form-control", type="file") }}
+                                        {% for error in form.img.errors %}
+                                        <p class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-sm-3">
+                                        {{ form.img_wide.label }}
+                                        {{ form.img_wide(class="form-control", type="file") }}
+                                        {% for error in form.img_wide.errors %}
+                                        <p class="alert alert-danger" role="alert">
+                                            {{ error }}
+                                        </p>
+                                        {% endfor %}
+                                    </div> <!-- form-group // --> <!-- form-group // -->
+                                    <hr>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            {{form.submit(type="submit", class="btn btn-primary")}}
+                                        </div>
+                                    </div>
+                                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+                                            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+                                            crossorigin="anonymous"></script>
+                                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+                                            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+                                            crossorigin="anonymous"></script> <!-- form-group // -->
+                                    <script src="static/js/game.js"></script>
+            </form>
+
+        </div><!-- panel-body // -->
+    </section><!-- panel// -->
+</div>
+{% endblock %}<!-- container// -->

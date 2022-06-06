@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='css/product.css')}}">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', path='css/comments.css')}}">
+<style type="text/css">
+    body {
+        {% if game.img_wide != None %}
+        background-image: url("{{ url_for('static', path=game.img_wide) }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        {% else %}
+        background-color: #0d0d0d;
+        {% endif %}
+    }
+</style>
+
+
+<!------ Include the above in your HEAD tag ---------->
+<div class="card container-lg">
+    <div class="row">
+        <aside class="col-sm-5">
+            <article class="gallery-wrap">
+                <div class="img-big-wrap">
+                    <div><a href="#"><img src="{{ url_for('static', path=game.img) }}"></a></div>
+                </div> <!-- slider-product.// -->
+            </article> <!-- gallery-wrap .end// -->
+        </aside>
+        <aside class="col-sm-7">
+            <article class="card-body p-5">
+                <h3 class="title mb-3">{{ game.game_title }}</h3>
+
+                <p class="price-detail-wrap">
+                    <span class="price h3 text-warning">
+                        <span class="currency">RU </span><span class="num">{{ game.price }}₽</span>
+                    </span>
+                </p> <!-- price-detail-wrap .// -->
+                <dl class="item-property">
+                    <dt>Описание</dt>
+                    <dd>
+                        <p>{{ game.game_description }}</p>
+                    </dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Жанр</dt>
+                    <dd>{{ genre.genre }}</dd>
+                </dl> <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>Разработчик</dt>
+                    <dd>{{ game.developers }}</dd>
+                </dl> <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>Дата выпуска</dt>
+                    <dd>{{ game.release_date }}</dd>
+                </dl>
+                <!-- item-property-hor .// -->
+                {% if in_cart %}
+                <a href="/cart_delete/{{game.id}}" class="btn btn-primary text-uppercase">Удалить из корзины</a>
+                {% else %}
+                <a href="/cart_add/{{game.id}}" class="btn btn-primary text-uppercase">Добавить в корзину</a>
+                {% endif %}
+
+                {% if current_user.is_admin and game.is_selling %}
+                <a href="/delete_game/{{game.id}}" class="btn btn-danger">Удалить игру</a>
+                {% elif current_user.is_admin and not game.is_selling %}
+                <a href="/add_game/{{game.id}}" class="btn btn-primary">Добавить игру</a>
+                {% endif %}
+            </article> <!-- card-body.// -->
+        </aside> <!-- col.// -->
+    </div> <!-- row.// -->
+    <br>
+    <center>
+        <a class="btn btn-primary" href="/add_comment/{{game.id}}">Оставить комментарий</a>
+    </center>
+    <br>
+    <div class="container-lg comments-body">
+        <div class="row">
+            <div class="col-sm-5 col-md-6 col-12 pb-4">
+                {% for comm in comments %}
+                <div class="comment mt-4 text-justify float-left">
+                    <img src="{{ comm.avatarcom }}" class="rounded-circle">
+                    <h4 class="username-com">
+                        {{ comm.username }}
+                    </h4>
+                    <span>
+                        {{ comm.timestamp.strftime('%d %b %Y; %H:%M:%S') }}
+                    </span>
+                    <p>{{comm.body }}</p>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div> <!-- card.// -->
+<!--container.//-->
+{% endblock %}

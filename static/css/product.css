@@ -1,0 +1,73 @@
+.gallery-wrap .img-big-wrap img {
+    height: 450px;
+    width: 450px;
+    max-width: 450px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.gallery-wrap .img-small-wrap .item-gallery {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    margin: 7px 2px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.gallery-wrap .img-small-wrap {
+    text-align: center;
+}
+.gallery-wrap .img-small-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: zoom-in;
+}
+
+
+.a {
+    font-size: 4em;
+    padding: 10px;
+    text-decoration: none;
+}
+
+:root {
+  --button-color: black;
+  --button-background-color: #B8860B;
+  --darken-1: #FFD700;
+}
+.btn-primary {
+  color: var(--button-color);
+  background-color: var(--button-background-color);
+}
+
+.btn-primary:hover {
+  box-shadow: inset 0 0 0 20rem var(--darken-1);
+}
+
+.btn-primary:active {
+  box-shadow: inset 0 0 0 20rem var(--darken-1),
+    inset 0 3px 4px 0 var(--darken-3),
+    0 0 1px var(--darken-2);
+}
+
+.btn {
+    font-family: 'tt milks';
+    font-size: 16px;
+    line-height: 1.2;
+    padding: 11px 12px 8px;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border: 0;
+}

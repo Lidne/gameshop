@@ -1,0 +1,207 @@
+.swiper-menu {
+	margin-left: 12%;
+	margin-top: 20px;
+}
+
+
+.menu_elem {
+	font-family: 'TT Hoves';
+	font-size: 24px;
+	line-height: 28px;
+	color: #E6E6FA;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.game-item {
+	position: relative;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    border-radius: 11px 11px 0 0;
+    overflow: hidden;
+    max-width: 268px;
+    max-height: 450px;
+    margin: 30px;
+}
+
+.game-item-img {
+	border-radius: 11px 11px 0 0;
+    overflow: hidden;
+    margin-bottom: 8px;
+    -webkit-transition: .3s;
+    transition: .3s;
+    position: relative;
+    display: flex;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+
+}
+
+.game-item-name {
+	font-family: 'Luminari';
+	color: #DC143C;
+	text-decoration: none;
+	text-transform: uppercase;
+	min-height: 60px;
+}
+
+.btn {
+	font-family: 'tt milks';
+    font-size: 16px;
+    line-height: 1.2;
+    padding: 11px 12px 8px;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    -webkit-transition: .3s;
+    transition: .3s;
+    border: 0;
+}
+
+.btn-primary {
+	background: #fbbb43;
+    border-radius: 11px;
+    color: #000;
+    font-size: 18px;
+    letter-spacing: .04em;
+}
+
+
+.price {
+	font-family: 'tt milks';
+	color: white;
+	margin-bottom: 20px;
+	font-size: 25px;
+}
+
+
+.games-wrapper {
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+    justify-content: space-between;
+}
+
+body {
+	background-color: #0d0d0d;
+}
+
+.postimg, .wideimg {
+	width: 100%;
+	height: 100%;
+}
+
+.brand {
+	width: 30px;
+	height: 24px;
+}
+
+
+.btn-all {
+	margin: 40px;
+}
+
+.blog-title {
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Merriweather';
+}
+
+.social a {
+	font-size: 4em;
+	padding: 10px;
+	text-decoration: none;
+}
+
+ul, li {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+
+.fa-facebook {color: #3b5998}
+.fa-instagram {color: #517fa4}
+.fa-vk {color: blue}
+.fa-twitter {color: #00aced}
+
+.fa-facebook:hover, .fa-vk:hover, .fa-twitter:hover, .fa-instagram:hover {
+	color: #000;
+}
+
+h2 {
+	color: #B22222;
+} 
+
+
+footer {
+    background-color: #FFF8DC;
+}
+
+
+.footer {
+    flex-shrink: 0;
+
+}
+
+.reg_but {
+	margin: left;
+	font-family: "tt milks";
+	padding-right: 30px;
+}
+
+:root {
+  --button-color: black;
+  --button-background-color: #B8860B;
+  --darken-1: #FFD700;
+}
+.btn-primary {
+  color: var(--button-color);
+  background-color: var(--button-background-color);
+}
+
+.btn-primary:hover {
+  box-shadow: inset 0 0 0 20rem var(--darken-1);
+}
+
+.btn-primary:active {
+  box-shadow: inset 0 0 0 20rem var(--darken-1),
+    inset 0 3px 4px 0 var(--darken-3),
+    0 0 1px var(--darken-2);
+}
+
+.btn-primary:disabled,
+.btn-primary.is-disabled {
+  opacity: .5;
+}
+
+
+.btn-danger {
+	background: crimson;
+    border-radius: 11px;
+    color: #000;
+    font-size: 18px;
+    letter-spacing: .04em;    
+}
+
+.btn-a-spin a {
+	font-family: 'tt milks';
+}
+
+
+.search {
+    margin-left: 60%;
+}

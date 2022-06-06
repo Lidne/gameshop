@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+    <section class="home-games">
+        <div class="container-lg">
+            <div class="games-wrapper">
+                {% for game in games %}
+                <div class="game-item">
+                    <div class="game-item-img">
+                        <img class="postimg" src="/static/{{ game.img }}">
+                    </div>
+                    <div class="game-item-name">{{ game.game_title }}</div>
+                    <div class="price"><b>{{ game.code }}</b></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</center>
+{% endblock %}

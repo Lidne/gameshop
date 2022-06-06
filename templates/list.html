@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if games_list %}
+<section class="home-games">
+    <div class="container-lg">
+        <div class="games-wrapper">
+            {% for j in games_list %}
+            <div class="game-item">
+                <a class="game-item-img" href="/games/{{j.id}}">
+                    <img class="postimg" src="{{ url_for('static', path=j.img) }}">
+                </a>
+                <a href="/games/{{j.id}}" class="game-item-name">{{ j.game_title }}</a>
+                <div class="price"><b>{{ j.price }}₽</b></div>
+                <a href="/cart_add/{{j.id}}" class="btn btn-primary">В корзину</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% else %}
+<center>
+    <div style="margin: 17.5%;">
+        <a href="/list" class="btn btn-primary">Ничего не найдено</a>
+    </div>
+</center>
+{% endif %}
+{% endblock %}

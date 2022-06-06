@@ -1,0 +1,5 @@
+venv/
+flask_project/
+alembic/
+.vscode/
+__pycache__/

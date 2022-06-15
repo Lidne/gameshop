@@ -4,13 +4,15 @@ import Levenshtein
 from datetime import datetime, timedelta
 from random import shuffle
 from forms import CommentForm, GameForm, LoginForm, RegisterForm, SearchForm
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi import FastAPI, Depends, HTTPException, Header, Response, status, Form, Request, Cookie
 from fastapi.middleware import Middleware
-from starlette.middleware.sessions import SessionMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, PlainTextResponse
+from fastapi.exceptions import RequestValidationError
 from database import init_db, get_db
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
@@ -31,6 +33,20 @@ init_db()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return templates.TemplateResponse('error.html', {"request": request, "error": str(exc),
+    "code": 500})
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request, exc):
+    if exc.status_code == 401:
+        return templates.TemplateResponse('unauthorised.html', {"request": request})
+    return templates.TemplateResponse('error.html', {"request": request, "error": str(exc.detail),
+    "code": exc.status_code})
 
 
 def get_user(db: Session, username: str):
@@ -199,6 +215,17 @@ async def game(request: Request, game_id: int, db: Session = Depends(get_db),
 @csrf_protect
 async def some(request: Request, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
     form = await GameForm.from_formdata(request)
+    if current_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized access is denied",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -254,6 +281,11 @@ async def some(request: Request, current_user: models.User = Depends(get_current
 
 @app.get("/delete_game/{game_id}", response_class=RedirectResponse)
 async def delete_game(request: Request, game_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -278,6 +310,11 @@ async def delete_game(request: Request, game_id: int, db: Session = Depends(get_
 
 @app.get("/add_game/{game_id}", response_class=RedirectResponse)
 async def set_selling_game(game_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -318,7 +355,11 @@ async def game_list(request: Request, search: str | None = None, db: Session = D
 @app.post("/add_comment/{game_id}", response_class=RedirectResponse, status_code=302)
 async def add_comment(request: Request, game_id: int, db: Session = Depends(get_db), current_user: Session = Depends(get_current_user)):
     form = await CommentForm.from_formdata(request)
-    print("bebra")
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     if request.method == "POST":
         comment = models.Comment(
             body=form.body.data,
@@ -342,19 +383,22 @@ async def cart(request: Request, cart: list | None = Depends(get_cart),
 
 
 @app.get("/cart_add/{game_id}", response_class=RedirectResponse)
-async def cart_add(request: Request, response: Response, game_id: int, cart_list: list | None = Depends(get_cart)):
-    if cart_list is None:
-        cart_list = set()
+async def cart_add(request: Request, response: Response, game_id: int):
+    cart_list = request.session.get("cart")
+    if cart_list is None or type(cart_list) != list:
+        request.session.update(cart=[])
+    cart_list.append(game_id)
     request.session.update(cart=list(cart_list))
     print(request.session.get("cart"))
     return "/cart"
 
 
 @app.get("/cart_delete/{game_id}", response_class=RedirectResponse)
-async def cart_delete(request: Request, response: Response, game_id: int, cart_list: list | None = Depends(get_cart)):
+async def cart_delete(request: Request, response: Response, game_id: int):
+    cart_list = request.session.get("cart")
     if cart_list is None:
         return "/games/" + str(game_id)
-    if game_id == 0:
+    if game_id == 0 or type(cart_list) != list:
         request.session.update(cart=[])
         return "/cart"
     cart_list.pop(cart_list.index(game_id))
@@ -368,6 +412,11 @@ async def cart_delete(request: Request, response: Response, game_id: int, cart_l
 @app.get("/buy", response_class=HTMLResponse)
 async def buy(request: Request, current_user: models.User = Depends(get_current_user),
               db: Session = Depends(get_db), cart: list | None = Depends(get_cart)):
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     cart_list = db.query(models.Game).filter(models.Game.id.in_(cart)).all()
     total = sum(list(map(lambda x: x.price, cart_list)))
     return templates.TemplateResponse('payment.html', {"request": request, "current_user": current_user,
@@ -377,6 +426,11 @@ async def buy(request: Request, current_user: models.User = Depends(get_current_
 @app.get("/goods")
 async def goods(request: Request, response: Response, current_user: models.User = Depends(get_current_user),
                 db: Session = Depends(get_db), cart_list: set | None = Depends(get_cart)):
+    if current_user is None:
+        raise  HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Restricted for unauthorized users"
+        )
     games = db.query(models.Game).filter(models.Game.id.in_(cart_list)).all()
 
     text = list(string.ascii_uppercase + string.digits)
@@ -385,4 +439,11 @@ async def goods(request: Request, response: Response, current_user: models.User 
         games[i].code = ''.join(text[:7])
     request.session.update(cart=[])
     return templates.TemplateResponse('goods.html', {"request": request, "current_user": current_user, "games": games})
-    
+
+
+@app.get("/test/")
+async def test():
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Иди нахуй"
+    )

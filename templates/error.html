@@ -3,13 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Error {{code}}</title>
+    <style type="text/css">
+        body {
+            background-color: #0d0d0d;
+        }
+
+        h1 {
+            color: #B22222;
+        }
+
+        img {
+            margin-top: 30px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .bebra {
+            background-color: white;
+            border-radius: 10px;
+            width: 400px;
+            padding: 2%;
+        }
+    </style>
+    <link rel="shortcut icon" href="/static/img/favicon/favicon.png" type="image/png">
 </head>
 <body>
 <center>
-    <div style="margin-top: 14%;">
+    <div style="margin-top: 14%;" class="bebra">
+        <h1>Error status code {{ code }}</h1>
         <h2>Возникла непредвиденная ошибка</h2>
         <h4>{{ error }}</h4>
-        <img src="{{image}}" style="width: 100px; height: 100px;" alt=""/>
+        <a href="/"><img src="/static/img/brand/amogus.png" style="width: 100px; height: 100px;" alt=""/></a>
     </div>
 </center>
 </body>

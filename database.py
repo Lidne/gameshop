@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 
-SQLALCHEMY_DATABASE_URL = "mysql://root:root@localhost/main_db"
+SQLALCHEMY_DATABASE_URL = "mysql://root:root@127.0.0.1:3306/web_db"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
